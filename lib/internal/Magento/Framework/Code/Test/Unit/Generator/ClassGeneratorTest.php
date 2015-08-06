@@ -299,4 +299,23 @@ class ClassGeneratorTest extends \PHPUnit_Framework_TestCase
         $invalidProperty = new \Zend\Code\Generator\PropertyGenerator();
         $this->_model->addPropertyFromGenerator($invalidProperty);
     }
+
+    /**
+     * Leading slashes should be trimmed from namespace names.
+     */
+    public function testGetNamespaceNameTrimLeadingSlash()
+    {
+        $this->_model->setNamespaceName('\\Namespace');
+        $this->assertSame('Namespace', $this->_model->getNamespaceName());
+    }
+
+    /**
+     * Classes in the root namespace - no namespace - should return null
+     * when getting the namespace name.
+     */
+    public function testGetNamespaceNameRootNamespace()
+    {
+        $this->_model->setNamespaceName(null);
+        $this->assertNull($this->_model->getNamespaceName());
+    }
 }
